@@ -1,5 +1,6 @@
 
 #include<stdio.h>
+#include <stdlib.h>
 //gotoxy function
 void gotoxy(int x,int y)
 {
@@ -7,13 +8,17 @@ void gotoxy(int x,int y)
 }
 void main ()
 {
+	system("clear");
 
-	gotoxy(25,50); //reposition cursor
-	
-
+	gotoxy(1,1); //reposition cursor
 
 	printf("hello world"); //display text
-	printf("\x1b[31mThis is red text\x1b[0m\n");
-	printf("\x1b[32mThis is green text\x1b[0m\n");
-	
+	gotoxy(3,5);
+	printf("\x1b[31mThis is red text\x1b[0m");
+	gotoxy(1,2);
+	printf("\x1b[32mThis is green text\x1b[0m");
+	//맨마지막은 최대 범위에 그려준다.
+	gotoxy(1,20);
+	printf("==============================");
+
 }
