@@ -1,2 +1,2 @@
 "# cstudy2016" 
-hello git
+hi git
