@@ -13,8 +13,14 @@ int world_map[] = {
 
 int buffer_map[64];
 
-int player_xpos = 1;
-int player_ypos = 5;
+//0 준비
+//1 게임 플레이
+//2 레벨클리어
+//3 게임오버 
+int nFSM = 0;
+
+int player_xpos;
+int player_ypos;
 
 void move_player(char cmd)
 {
@@ -24,11 +30,9 @@ void move_player(char cmd)
 	switch(cmd)
 	{
 		case 'i':
-			printf("위로 한칸 이동했습니다\r\n");
 			player_ypos -=1;
 			break;
 		case 'j':
-			printf("좌로 이동했습니다. \r\n");
 			player_xpos -=1;
 			break;
 		case 'k':
@@ -39,13 +43,22 @@ void move_player(char cmd)
 			break;
 	}
 
-	if(buffer_map[ player_xpos + player_ypos*8 ] == 0) {
-	}
-	else {
-		//printf("막다른길입니다.\r\n");
-		player_xpos = old_xpos;
+	switch(buffer_map[ player_xpos + player_ypos*8 ] ) {
+		case 1: //벽
 		player_ypos = old_ypos;
+		player_xpos = old_xpos;
+
+		break;
+		case 0: //공간
+		break;
+		case 2: //문 
+		printf("미션 클리어 \r\n");
+		nFSM = 2;
+		break;
+
 	}
+	
+	buffer_map[ player_xpos + player_ypos*8 ] = 3;
 
 }
 
