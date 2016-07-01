@@ -3,6 +3,30 @@
 #include "../engine2d.h"
 #include "exit_room.h"
 
+/*
+ *
+ 1 : 벽 #
+ 2:  열린문 M
+ 3 : 게임머 A
+ 4: 잠긴문 m
+ 5: 키 K
+ */
+
+int world_map[] = {
+	1,1,1,1,1,1,1,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,1,0,0,0,1,
+	1,0,0,1,0,0,0,1,
+	1,0,0,1,0,0,0,1,
+	4,0,0,0,5,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,1,1,1,1,1,1,1
+};
+
+int game_version = 1;
+char *game_name = "방탈출 게임"; 
+
+
 int main()
 {
 	char cmd;
@@ -11,7 +35,7 @@ int main()
 	while(bLoop) {
 		switch(nFSM) {
 			case 0:
-				printf("방탈출 게임의 세계에 오신걸 환영합니다. \r\n ");
+				printf("%s의 세계에 오신걸 환영합니다. V. %d \r\n ",game_name,game_version );
 				printf("select => [p,x] \r\n");
 				break;
 			case 1:
@@ -37,6 +61,7 @@ int main()
 					nFSM = 1;
 					player_ypos = 5;
 					player_xpos = 1;
+					player_inven = 0;
 					printf("게임을 시작합니다.");
 					break;
 				case 'x':
