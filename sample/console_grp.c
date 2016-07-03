@@ -6,7 +6,7 @@ void gotoxy(int x,int y)
 {
 	printf("%c[%d;%df",0x1B,y,x);
 }
-void main ()
+int main ()
 {
 	system("clear");
 
@@ -20,5 +20,6 @@ void main ()
 	//맨마지막은 최대 범위에 그려준다.
 	gotoxy(1,20);
 	printf("============================== \r\n");
+	return 0;
 
 }
