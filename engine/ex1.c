@@ -54,17 +54,18 @@ int main()
 
 		clock_gettime(CLOCK_MONOTONIC,&work_timer);
 
-		double cur_tick = work_timer.tv_sec + (double)(work_timer.tv_nsec * 1e-9);
+		double cur_tick = work_timer.tv_sec + 
+			(double)(work_timer.tv_nsec * 1e-9);
 		double delta_tick = cur_tick - last_tick;
 		acc_tick += delta_tick;
 		
 		last_tick = cur_tick;
 		
-		if(acc_tick > 1.0) {
+		if(acc_tick > 0.1) {
 			//printf("tick tok \r\n");
 			acc_tick = 0;
 
-//render 
+			//render 
 			gotoxy(1,1);
 			int x,y;
 			for(y=0;y<16;y++) {
