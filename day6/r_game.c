@@ -8,11 +8,14 @@
 #include <termios.h>
 
 #include "../engine/engine2d.h"
+#include "r_game.h"
 
 char screen_buffer[8*8];
 
 double rock_acc_tick;
 int rock_pos_x,rock_pos_y;
+int rock_pos_table[8] = { 1,3,2,3,4,5,7,3};
+int rock_cur_table_index = 0;
 
 int car_posx,car_posy;
 
@@ -35,7 +38,7 @@ int main()
 	car_posx = 3;
 
 	rock_pos_y = 0;
-	rock_pos_x = 3;
+	rock_pos_x = rock_pos_table[ rock_cur_table_index ];
 
 	while(bLoop) {
 
@@ -67,8 +70,13 @@ int main()
 		if(rock_acc_tick > 0.5) {
 			rock_acc_tick = 0;
 			rock_pos_y += 1;
+			//화면끝도달...
 			if(rock_pos_y >= 8) {
 				rock_pos_y = 0;
+				rock_cur_table_index++;
+				rock_cur_table_index %= 8;
+				rock_pos_x = rock_pos_table[ rock_cur_table_index];
+
 			}
 		}
 
@@ -77,6 +85,7 @@ int main()
 			rock_pos_x == car_posx)
 		{
 			bLoop = 0;
+			//drawGame(screen_buffer);
 			printf("game over\n");
 		}
 
@@ -91,33 +100,12 @@ int main()
 		screen_buffer[ rock_pos_y*8 + rock_pos_x ] = 1;
 
 		acc_tick += delta_tick;
-		if(acc_tick > 0.1) {
+		if(acc_tick > 0.1 || bLoop == 0 ) {
 			acc_tick = 0;
-
-			//랜더링 
-			gotoxy(1,1);
-			int x,y;
-			for(y=0;y<8;y++)
-			{
-				for(x=0;x<8;x++) {
-					switch( screen_buffer[8*y+x]) {
-						case 0:
-							putchar('.');
-							break;
-						case 1:
-							putchar('#');
-							break;
-						case 2:
-							putchar('A');
-							break;
-					}
-				}
-				printf("\r\n");
-			}
+			drawGame(8,8,screen_buffer);
 		}
 
 	}
-
 
 
 	return 0;
