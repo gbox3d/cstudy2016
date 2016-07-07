@@ -7,7 +7,9 @@ typedef struct {
 } _S_Player;
 
 /*
-****
+ c++ 용 
+class _S_Player {
+}
 
  */
 
