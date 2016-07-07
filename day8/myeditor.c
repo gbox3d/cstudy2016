@@ -32,15 +32,16 @@ int main()
 				pHeader = pLine;
 			}
 			else {
-				
+		//끝까지 찾아들어가기 		
 				_S_STR_LINE *pNext = (_S_STR_LINE *)pHeader;
 
 				while(pNext != NULL) {
+					//마지막이라면...
 					if(pNext->m_pNext == NULL) {
 						pNext->m_pNext = pLine;
 						pNext = NULL;
 					}
-					else {
+					else { //더있다면...
 						pNext = pNext->m_pNext;
 					}
 				}
@@ -49,6 +50,13 @@ int main()
 		else if(!strcmp(pTemp,"pop")) {
 		}
 		else if(!strcmp(pTemp,"del")) {
+			
+			_S_STR_LINE *_pGarbage = pHeader; 
+			pHeader = pHeader->m_pNext;
+			
+			free(_pGarbage->m_szStr);
+			free(_pGarbage);
+
 		}
 		else if(!strcmp(pTemp,"ins")) {
 			int nIndex = atoi(strtok(NULL," "));
@@ -65,7 +73,12 @@ int main()
 		}
 		else if(!strcmp(pTemp,"dump")) {
 			puts("---------------------------");
-			
+			_S_STR_LINE *pLine = pHeader;
+
+			while(pLine != NULL) {
+				puts(pLine->m_szStr);
+				pLine = pLine->m_pNext;	
+			}
 
 			puts("---------------------------");
 		}
