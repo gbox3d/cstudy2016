@@ -5,13 +5,12 @@
 
 typedef struct {
 	char *m_szToken;
-	void (*m_fp)(char *ptr);
+	void (*m_fp)();
 } _S_PROC_OBJECT;
 
 
 int bLoop = 1;
 char *pTemp;
-char strCmd[128];
 static _S_STR_LINE *pHeader = NULL;
 
 void me_exit()
@@ -22,29 +21,29 @@ void me_exit()
 void me_push()
 {
 	pTemp = strtok(NULL,"");
-			char *pstr = (char *)malloc(strlen(pTemp)+1);
-			strcpy(pstr,pTemp);
-			_S_STR_LINE *pLine = (_S_STR_LINE *)malloc(sizeof(_S_STR_LINE));
-			pLine->m_szStr = pstr;
-			pLine->m_pNext = NULL;
-			if(pHeader == NULL) {
-				pHeader = pLine;
-			}
-			else {
+	char *pstr = (char *)malloc(strlen(pTemp)+1);
+	strcpy(pstr,pTemp);
+	_S_STR_LINE *pLine = (_S_STR_LINE *)malloc(sizeof(_S_STR_LINE));
+	pLine->m_szStr = pstr;
+	pLine->m_pNext = NULL;
+	if(pHeader == NULL) {
+		pHeader = pLine;
+	}
+	else {
 		//끝까지 찾아들어가기 		
-				_S_STR_LINE *pNext = (_S_STR_LINE *)pHeader;
+		_S_STR_LINE *pNext = (_S_STR_LINE *)pHeader;
 
-				while(pNext != NULL) {
-					//마지막이라면...
-					if(pNext->m_pNext == NULL) {
-						pNext->m_pNext = pLine;
-						pNext = NULL;
-					}
-					else { //더있다면...
-						pNext = pNext->m_pNext;
-					}
-				}
+		while(pNext != NULL) {
+			//마지막이라면...
+			if(pNext->m_pNext == NULL) {
+				pNext->m_pNext = pLine;
+				pNext = NULL;
 			}
+			else { //더있다면...
+				pNext = pNext->m_pNext;
+			}
+		}
+	}
 
 }
 
@@ -70,5 +69,6 @@ void me_dump()
 	puts("---------------------------");
 
 }
+
 
 
