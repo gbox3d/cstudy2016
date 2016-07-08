@@ -2,10 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-extern int bLoop;
-void me_exit();
-void me_push();
-void me_dump();
+//extern int bLoop;
+//void me_exit();
+int bLoop=1;
+
+void apply(char *);
 
 int main()
 {
@@ -15,27 +16,10 @@ int main()
 	{
 		char strCmd[128];
 		gets(strCmd);
-
 		char *pTemp = strtok(strCmd," ");
-
-		if(!strcmp(pTemp,"exit")) {
-			me_exit();
-		}
-		else if(!strcmp(pTemp,"push")) {
-			me_push();
-		}
-		else if(!strcmp(pTemp,"pop")) {
-		}
-		else if(!strcmp(pTemp,"del")) {
-		}
-		else if(!strcmp(pTemp,"ins")) {
-		}
-		else if(!strcmp(pTemp,"rm")) {
-		}
-		else if(!strcmp(pTemp,"set")) {
-		}
-		else if(!strcmp(pTemp,"dump")) {
-			me_dump();
+		if(!strcmp(pTemp,"exit")) {bLoop = 0;}
+		else {
+			apply(pTemp);
 		}
 
 	}
