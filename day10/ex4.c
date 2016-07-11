@@ -74,6 +74,24 @@ int main()
 			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + x ] = tile_index;
 		
 		}
+		else if( !strcmp(pTemp,"hline") ) {
+			//hline 1 2
+			int xpos,tile_index;
+			xpos = atoi( strtok(NULL," ") );
+			tile_index = atoi( strtok(NULL," ") );
+			for(int iy=0;iy<MapObject.m_header.m_nHeight;iy++) {
+				MapObject.m_pBuf[iy* MapObject.m_header.m_nWidth + xpos] = tile_index;
+			}
+		}
+		else if( !strcmp(pTemp,"vline")) {
+			int ypos,tile_index;
+			ypos = atoi( strtok(NULL," ") );
+			tile_index = atoi( strtok(NULL," " ));
+			for(int ix = 0;ix < MapObject.m_header.m_nWidth;ix++) {
+				MapObject.m_pBuf[ix + ypos*MapObject.m_header.m_nWidth] = tile_index;
+			}
+
+		}
 
 	}
 		
