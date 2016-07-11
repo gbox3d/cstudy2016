@@ -119,5 +119,24 @@ void map_drawAll(int *pMap)
 }
 
 
+void putTile(int sy,int ey,int sx, int ex,
+int width,
+char *ptrBuf,
+char *pchrTable
+)
+{
+	int ix,iy;
+
+	for(iy=sy;iy<ey;iy++) {
+		for(ix=sx;ix<ex;ix++) {
+			putchar(  pchrTable[ptrBuf[ (iy*width) +ix] ] );
+			
+		}
+		printf("\r\n");
+		//puts("");
+	}
+}
+	
+
 
 #endif

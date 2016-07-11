@@ -1,28 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/select.h>
+#include <termios.h>
+#include "../engine/engine2d.h"
+
 char *pMapBuf;
+char chrTable[] = {'.','#','@','*'};
 
-void putTile(int sy,int ey,int sx, int ex,
-int width,
-char *ptrBuf)
-{
-	int ix,iy;
-
-	for(iy=sy;iy<ey;iy++) {
-		for(ix=sx;ix<ex;ix++) {
-			if(ptrBuf[ (iy*width)+ix] ==0 ) {
-				putchar('.');
-			}
-			else {
-				putchar('@');
-			}
-		}
-		printf("\r\n");
-		//puts("");
-	}
-}
-				
 int main()
 {
 	int width,height;
@@ -54,9 +42,7 @@ int main()
 			pMapBuf[iy*width + ix] = atoi(pTemp);
 		}
 	}
-	
-	putTile(0,height,0,width,width,pMapBuf);
-
+	putTile(0,height,0,width,width,pMapBuf,chrTable);
 	free(pMapBuf);
 	fclose(pf);
 
