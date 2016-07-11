@@ -8,7 +8,6 @@
 #include <termios.h>
 #include "../engine/engine2d.h"
 
-
 char pstr[] = {
 	0,0,0,1,0,0,0,0,
 	0,0,0,1,0,0,0,0,
@@ -22,13 +21,15 @@ char pstr[] = {
 	0,1,0,0,1,1,1,0
 };
 
-void putTile(int sy,int ey,int sx, int ex,char *ptrBuf)
+void putTile(int sy,int ey,int sx, int ex,
+int width,
+char *ptrBuf)
 {
 	int ix,iy;
 
 	for(iy=sy;iy<ey;iy++) {
 		for(ix=sx;ix<ex;ix++) {
-			if(pstr[ (iy*8)+ix] ==0 ) {
+			if(pstr[ (iy*width)+ix] ==0 ) {
 				putchar('.');
 			}
 			else {
@@ -66,7 +67,7 @@ int main() {
 			acc_tick = 0;
 			nCount++;
 			system("clear");
-			putTile(nCount,nCount+4,0,8,pstr);
+			putTile(nCount,nCount+4,0,8,8,pstr);
 			//printf("%d \r\n",nCount);
 
 		}
