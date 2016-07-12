@@ -12,7 +12,14 @@ int main()
 	_S_MAP_OBJECT carObj;map_init(&carObj);map_load(&carObj,"car.dat");
 
 	puts("\r\n----------------");
-
+/*
+ * 
+ @@
+ ##
+ ##
+ @@
+  
+ */
 	{
 		_S_MAP_OBJECT *pObj = &carObj;
 		for(int iy=0;iy < pObj->m_header.m_nHeight;iy++) {
