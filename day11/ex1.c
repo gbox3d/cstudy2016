@@ -125,6 +125,47 @@ int main()
 			fclose(pf);
 
 		}
+		else if( !strcmp(pTemp,"tridraw_1") ) {
+/*   tri_draw_1 1
+ *
+ *            #
+ *            ##
+ *            ###
+ *            ####
+ */
+			int nTileIndex = atoi( strtok(NULL," "));
+			int nHeight = MapObject.m_header.m_nHeight;
+			int nWidth = MapObject.m_header.m_nWidth;
+			
+			for(int iy = 0;iy < nHeight;iy++) {
+				for(int ix=0;(ix < iy) && ( ix <nWidth ) ; ix++) {
+					
+					MapObject.m_pBuf[iy*nWidth + ix] = nTileIndex;
+				}
+			}
+			
+			
+
+		}
+		else if( !strcmp(pTemp,"draw_cross")) {
+			//draw_cross 1 2 1
+			/*
+			 *                 #
+			 *                ###
+			 *                 #
+			 */  
+			int x,y,tile_index;
+			x = atoi( strtok(NULL," ") );
+			y = atoi( strtok(NULL," ") );
+			tile_index = atoi( strtok(NULL," ") ); 
+			       
+			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + x ] = tile_index;
+			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + (x+1) ] = tile_index;
+			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + (x-1) ] = tile_index;
+			MapObject.m_pBuf[ (y-1)*MapObject.m_header.m_nWidth + x ] = tile_index;
+			MapObject.m_pBuf[ (y+1)*MapObject.m_header.m_nWidth + x ] = tile_index;
+			
+		}
 
 	}
 		
