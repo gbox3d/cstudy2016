@@ -7,22 +7,50 @@
 #include <sys/select.h>
 #include <termios.h>
 #include "../engine/engine2d.h"
-
-typedef struct
-{
-	int m_nSkima;
-	int m_nWidth;
-	int m_nHeight;
-}_S_MAP_HEADER;
-
-
-typedef struct
-{
-	_S_MAP_HEADER m_header;
-	char *m_pBuf;
-}_S_MAP_OBJECT;
+#include "map.h"
 
 _S_MAP_OBJECT MapObject;
+
+void map_PutTile(_S_MAP_OBJECT *pObj, int x,int y,int nTileIndex)
+{
+	pObj->m_pBuf[ pObj->m_header.m_nWidth * y + x  ] = nTileIndex;
+}
+
+//0 : 성공
+//1 : 실패 
+int map_save(_S_MAP_OBJECT *pObj,char *filename)
+{
+	FILE *pf = fopen(filename,"wb");
+	fwrite( &( pObj->m_header),sizeof(pObj->m_header),1,pf);
+	int nSize = pObj->m_header.m_nWidth * pObj->m_header.m_nHeight;
+	fwrite(pObj->m_pBuf,nSize,1,pf);
+
+	fclose(pf);
+	return 0;
+
+}
+//0: success
+//1 : error
+int map_load(_S_MAP_OBJECT *pObj,char *filename)
+{
+	FILE *pf = fopen(filename,"rb");
+	fread( &(pObj->m_header),sizeof(_S_MAP_HEADER),1,pf);
+
+	if(pObj->m_pBuf) {
+		free(pObj->m_pBuf);
+	}
+	int nSize = pObj->m_header.m_nWidth * pObj->m_header.m_nHeight;
+	pObj->m_pBuf = malloc( nSize);
+
+	fread(pObj->m_pBuf,nSize,1,pf);
+
+	for(int i=0;i<nSize;i++) {
+		printf("%d,",pObj->m_pBuf[i]);
+	}
+
+	return 0;
+}
+
 int main()
 {
 	int bLoop=1;
@@ -44,25 +72,17 @@ int main()
 
 		}
 		else if( !strcmp(pTemp,"dump") ){
-			putTile(
-			0,MapObject.m_header.m_nHeight,
-			0,MapObject.m_header.m_nWidth,
-			MapObject.m_header.m_nWidth,
-			MapObject.m_pBuf,
-			TilePalette
-			 );
+			map_dump( &MapObject,TilePalette);
 		}
 		else if(!strcmp(pTemp,"new")) {
 			//new 8 4
-			if(MapObject.m_pBuf !=NULL) {free(MapObject.m_pBuf); }
-			MapObject.m_header.m_nWidth = atoi(strtok(NULL," "));
-			MapObject.m_header.m_nHeight = atoi(strtok(NULL," "));
-			MapObject.m_pBuf = malloc( 
-			MapObject.m_header.m_nHeight * MapObject.m_header.m_nWidth );
-
-			for(int i=0;i< 	MapObject.m_header.m_nHeight * MapObject.m_header.m_nWidth;i++) {
-				MapObject.m_pBuf[i] = 0;
-			}
+			int nWidth = 
+				atoi( strtok(NULL," " ));
+			int nHeight = 
+				atoi( strtok(NULL," " ));
+			
+			map_new(&MapObject,
+				nWidth,nHeight);
 		}
 		else if(!strcmp(pTemp,"put")) {
 			//put 1 2 1 (x y tile_index)
@@ -70,8 +90,10 @@ int main()
 			x = atoi(strtok(NULL, " "));
 			y = atoi(strtok(NULL, " "));
 			tile_index = atoi(strtok(NULL," "));
+			//MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + x ] = tile_index;
+			map_PutTile(&MapObject,x,y,tile_index);
 
-			MapObject.m_pBuf[ y*MapObject.m_header.m_nWidth + x ] = tile_index;
+			//MapObject.PutTile(x,y,tile_index);
 		
 		}
 		else if( !strcmp(pTemp,"hline") ) {
@@ -95,34 +117,14 @@ int main()
 		else if( !strcmp(pTemp,"save")) {
 			//save filename
 			char *pTemp = strtok(NULL," ");
-			FILE *pf = fopen(pTemp,"wb");
-			fwrite(&MapObject.m_header,sizeof(MapObject.m_header),1,pf);
-			int nSize = MapObject.m_header.m_nWidth * MapObject.m_header.m_nHeight;
-			fwrite(MapObject.m_pBuf,nSize,1,pf);
-		
-			fclose(pf);
+			map_save(&MapObject,pTemp);
 			puts("save ok");
 		}
 		else if( !strcmp(pTemp,"load")) {
 			//load filename
 			char *pTemp = strtok(NULL," ");
-			FILE *pf = fopen(pTemp,"rb");
-			fread(&MapObject.m_header,sizeof(_S_MAP_HEADER),1,pf);
-
-			if(MapObject.m_pBuf) {
-				free(MapObject.m_pBuf);
-			}
-			int nSize = MapObject.m_header.m_nWidth * MapObject.m_header.m_nHeight;
-			MapObject.m_pBuf = malloc( nSize);
-
-			fread(MapObject.m_pBuf,nSize,1,pf);
-			
-			for(int i=0;i<nSize;i++) {
-				printf("%d,",MapObject.m_pBuf[i]);
-			}
-
+			map_load(&MapObject,pTemp);
 			puts("load ok");
-			fclose(pf);
 
 		}
 		else if( !strcmp(pTemp,"tridraw_1") ) {
