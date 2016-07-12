@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #include "map.h"
+
+
+char Default_Tilepalete[] = {'.','#','@','/',92,'+','=' };
+
 void map_init(_S_MAP_OBJECT *pObj)
 {
 	pObj->m_pBuf = NULL;
@@ -81,6 +85,45 @@ int map_load(_S_MAP_OBJECT *pObj,char *filename)
 	}
 
 	return 0;
+}
+
+void map_drawTile(_S_MAP_OBJECT *pObj,int posx,int posy,_S_MAP_OBJECT *pTarget)
+{
+//	_S_MAP_OBJECT *pObj = &humanObj;
+//	_S_MAP_OBJECT *pTarget = &screenBuf;
+//	int posx = 5;
+//	int posy = 5;
+
+	for(int iy=0;iy < pObj->m_header.m_nHeight;iy++) {
+		for(int ix = 0; ix < pObj->m_header.m_nWidth;ix++) {
+			map_PutTile(pTarget,ix + posx,iy + posy,
+					pObj->m_pBuf[iy*pObj->m_header.m_nWidth + ix]);
+		}
+	}
+
+}
+
+void map_drawTile_mirror_h(_S_MAP_OBJECT *pObj,int posx,int posy,_S_MAP_OBJECT *pTarget) 
+{	
+	for(int iy=0;iy < pObj->m_header.m_nHeight;iy++) {
+		for(int ix = 0; ix < pObj->m_header.m_nWidth;ix++) {
+			map_PutTile(pTarget, posx - ix,iy + posy,
+					pObj->m_pBuf[iy*pObj->m_header.m_nWidth + ix]);
+		}
+	}
+
+}
+
+
+void map_drawTile_mirror_v(_S_MAP_OBJECT *pObj,int posx,int posy,_S_MAP_OBJECT *pTarget) 
+{	
+	for(int iy=0;iy < pObj->m_header.m_nHeight;iy++) {
+		for(int ix = 0; ix < pObj->m_header.m_nWidth;ix++) {
+			map_PutTile(pTarget,ix + posx, posy -iy,
+					pObj->m_pBuf[iy*pObj->m_header.m_nWidth + ix]);
+		}
+	}
+
 }
 
 
