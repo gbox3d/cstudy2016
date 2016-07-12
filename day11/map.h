@@ -39,4 +39,46 @@ void map_new(_S_MAP_OBJECT *pObj,
 
 }
 
+void map_PutTile(_S_MAP_OBJECT *pObj, int x,int y,int nTileIndex)
+{
+	pObj->m_pBuf[ pObj->m_header.m_nWidth * y + x  ] = nTileIndex;
+}
+
+//0 : 성공
+//1 : 실패 
+int map_save(_S_MAP_OBJECT *pObj,char *filename)
+{
+	FILE *pf = fopen(filename,"wb");
+	fwrite( &( pObj->m_header),sizeof(pObj->m_header),1,pf);
+	int nSize = pObj->m_header.m_nWidth * pObj->m_header.m_nHeight;
+	fwrite(pObj->m_pBuf,nSize,1,pf);
+
+	fclose(pf);
+	return 0;
+
+}
+//0: success
+//1 : error
+int map_load(_S_MAP_OBJECT *pObj,char *filename)
+{
+	FILE *pf = fopen(filename,"rb");
+	fread( &(pObj->m_header),sizeof(_S_MAP_HEADER),1,pf);
+
+	if(pObj->m_pBuf) {
+		free(pObj->m_pBuf);
+	}
+	int nSize = pObj->m_header.m_nWidth * pObj->m_header.m_nHeight;
+	pObj->m_pBuf = malloc( nSize);
+
+	fread(pObj->m_pBuf,nSize,1,pf);
+
+	for(int i=0;i<nSize;i++) {
+		printf("%d,",pObj->m_pBuf[i]);
+	}
+
+	return 0;
+}
+
+
+
 #endif
