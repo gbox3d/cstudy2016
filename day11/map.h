@@ -12,6 +12,7 @@ typedef struct {
 	char *m_pBuf;
 }_S_MAP_OBJECT;
 
+void map_init(_S_MAP_OBJECT *pObj);
 int map_load(_S_MAP_OBJECT *pObj,char *filename);
 int map_save(_S_MAP_OBJECT *pObj,char *filename);
 

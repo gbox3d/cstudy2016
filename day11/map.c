@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #include "map.h"
+void map_init(_S_MAP_OBJECT *pObj)
+{
+	pObj->m_pBuf = NULL;
+}
 
 void map_dump(_S_MAP_OBJECT *pObj,char *pTile_pal)
 {
@@ -24,14 +28,18 @@ void map_dump(_S_MAP_OBJECT *pObj,char *pTile_pal)
 void map_new(_S_MAP_OBJECT *pObj,int nWidth,int nHeight)
 {
 	int nSize = nWidth*nHeight; 
+	
 	if(pObj->m_pBuf !=NULL) {free(pObj->m_pBuf); }
 	pObj->m_header.m_nWidth =  nWidth;// atoi(strtok(NULL," "));
 	pObj->m_header.m_nHeight = nHeight;//atoi(strtok(NULL," "));
+	//printf("%d \r\n",nSize);
 	pObj->m_pBuf = malloc( nSize);
 
 	for(int i=0;i< nSize ;i++) {
 		pObj->m_pBuf[i] = 0;
+		//printf("%d",pObj->m_pBuf[i]);
 	}
+	
 
 }
 
