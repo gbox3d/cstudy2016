@@ -20,10 +20,12 @@ int bLoop = 1;
 _S_MAP_OBJECT gScreenBuffer;
 _S_MAP_OBJECT gBackBuffer;
 _S_MAP_OBJECT gF22Raptor;
+_S_MAP_OBJECT gF22Bullet;
 
 //게임오브잭트 선언 
  _S_Plane gPlayerPlane;
 
+S_BULLET_OBJECT g_bullets[32];
 
 int main()
 {
@@ -39,7 +41,15 @@ int main()
 	map_init(&gF22Raptor);
 	map_load(&gF22Raptor,"plane1.dat");
 
+	map_init(&gF22Bullet);
+	map_load(&gF22Bullet,"bullet1.dat");
+
 	Plane_init(&gPlayerPlane,&gF22Raptor,17,10);
+
+	for(int i=0;i< sizeof(g_bullets)/sizeof(S_BULLET_OBJECT) ;i++)
+	{
+		bullet_init(&g_bullets[i],0,0,0,&gF22Bullet);
+	}
 
 	while(bLoop) {
 		//타이밍처리 
@@ -55,7 +65,29 @@ int main()
 				bLoop = 0;
 				puts("bye~ \r");
 			}
+			else if(ch=='j') {
+				for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
+					S_BULLET_OBJECT *pObj = &g_bullets[i];
+					if(pObj->m_nFSM == 0) { //슬립상태라면....
+						pObj->m_nFSM = 1;
+						pObj->m_fXpos = (double)gPlayerPlane.m_nXpos;
+						pObj->m_fYpos = (double)gPlayerPlane.m_nYpos;
+						pObj->m_fSeepd = 1.0;
+				
+					}
+				}
+
+
+			}
 			Plane_Apply(&gPlayerPlane,delta_tick,ch);
+
+			for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
+				S_BULLET_OBJECT *pObj = &g_bullets[i];
+				if(pObj->m_nFSM == 1) {
+					bullet_apply(pObj,delta_tick);
+				}
+			}
+
 
 		}
 
@@ -65,6 +97,13 @@ int main()
 			
 			map_drawTile(&gBackBuffer,0,0,&gScreenBuffer); //클리어 
 			Plane_Draw(&gPlayerPlane,&gScreenBuffer);
+			for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
+				S_BULLET_OBJECT *pObj = &g_bullets[i];
+				if(pObj->m_nFSM == 1) {
+					bullet_draw(pObj,&gScreenBuffer);
+				}
+
+			}
 
 			gotoxy(0,0);
 			puts("----------------------------------\r");
