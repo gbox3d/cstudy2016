@@ -11,6 +11,7 @@
 #include "../mapEditor/map.h"
 
 #include "plane.h"
+#include "bullet.h"
 
 struct timespec work_timer;
 double acc_tick,last_tick;
@@ -63,9 +64,6 @@ int main()
 		if(acc_tick > 0.1) {
 			
 			map_drawTile(&gBackBuffer,0,0,&gScreenBuffer); //클리어 
-
-			//map_drawTile_trn(&gF22Raptor,xpos,ypos,&gScreenBuffer);//오브잭트 출력 
-			
 			Plane_Draw(&gPlayerPlane,&gScreenBuffer);
 
 			gotoxy(0,0);
