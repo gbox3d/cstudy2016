@@ -69,11 +69,10 @@ int main()
 				for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
 					S_BULLET_OBJECT *pObj = &g_bullets[i];
 					if(pObj->m_nFSM == 0) { //슬립상태라면....
-						pObj->m_nFSM = 1;
-						pObj->m_fXpos = (double)gPlayerPlane.m_nXpos;
-						pObj->m_fYpos = (double)gPlayerPlane.m_nYpos;
-						pObj->m_fSeepd = 1.0;
-				
+						bullet_fire(pObj,
+								gPlayerPlane.m_nXpos,
+								gPlayerPlane.m_nYpos,10,5.0);
+						break;
 					}
 				}
 
@@ -81,14 +80,11 @@ int main()
 			}
 			Plane_Apply(&gPlayerPlane,delta_tick,ch);
 
-			for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
-				S_BULLET_OBJECT *pObj = &g_bullets[i];
-				if(pObj->m_nFSM == 1) {
-					bullet_apply(pObj,delta_tick);
-				}
-			}
+		}
 
-
+		for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
+			S_BULLET_OBJECT *pObj = &g_bullets[i];
+			bullet_apply(pObj,delta_tick);
 		}
 
 		//타이밍 계산 
@@ -99,10 +95,7 @@ int main()
 			Plane_Draw(&gPlayerPlane,&gScreenBuffer);
 			for(int i=0;i<sizeof(g_bullets)/sizeof(S_BULLET_OBJECT);i++) {
 				S_BULLET_OBJECT *pObj = &g_bullets[i];
-				if(pObj->m_nFSM == 1) {
-					bullet_draw(pObj,&gScreenBuffer);
-				}
-
+				bullet_draw(pObj,&gScreenBuffer);
 			}
 
 			gotoxy(0,0);
