@@ -4,7 +4,21 @@
 #include "map.h"
 
 
-char Default_Tilepalete[] = {'.','#','@','/',92,'+','=' };
+char Default_Tilepalete[] = {
+	'.',//0
+	'#',//1
+	'@',//2
+	'/',//3
+	92,//4
+	'+',//5
+	'=',//6
+	'^',//7
+	'>',//8
+	'<',//9
+	'|',//10
+	'-',//11
+	'*'//12
+ };
 
 void map_init(_S_MAP_OBJECT *pObj)
 {
