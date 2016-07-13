@@ -13,6 +13,7 @@ typedef struct {
 }_S_MAP_OBJECT;
 
 extern char Default_Tilepalete[];
+void map_drawTile_trn(_S_MAP_OBJECT *pObj, int posx,int posy,_S_MAP_OBJECT *pTarget); 
 
 void map_init(_S_MAP_OBJECT *pObj);
 int map_load(_S_MAP_OBJECT *pObj,char *filename);
