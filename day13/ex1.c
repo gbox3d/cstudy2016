@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/select.h>
 #include <termios.h>
-
+#include <math.h>
 #include "../engine/engine2d.h"
 #include "../mapEditor/map.h"
 #include "bullet.h"
@@ -50,8 +50,13 @@ int main()
 				puts("bye~ \r");
 			}
 			else if(ch == 'j') {
+				double vx,vy,c;
+				vx = 1.0;vy = 1.0;
+				c = sqrt(vx*vx + vy*vy);
+				vx /= c;vy /= c;
+
 				bullet_fire(&gBulletObject,17,7,
-				1.0,-1.0,-1.0,
+				1.0,vx,vy,
 				10.0);
 			}
 		}
