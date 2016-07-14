@@ -50,7 +50,9 @@ int main()
 				puts("bye~ \r");
 			}
 			else if(ch == 'j') {
-				bullet_fire(&gBulletObject,17,7,1.0,10.0);
+				bullet_fire(&gBulletObject,17,7,
+				1.0,-1.0,-1.0,
+				10.0);
 			}
 		}
 		///////////////////////////////

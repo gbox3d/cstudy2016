@@ -43,7 +43,8 @@ void  bullet_apply(S_BULLET_OBJECT *pObj,double deltaTick)
 				pObj->m_nStep = 0;
 				pObj->m_nFSM = 0;
 			}
-			pObj->m_fYpos -= deltaTick * pObj->m_fSpeed;
+			pObj->m_fYpos += deltaTick * (pObj->m_fSpeed * pObj->m_fvy);
+			pObj->m_fXpos += deltaTick * (pObj->m_fSpeed * pObj->m_fvx);
 		}
 
 		break;
@@ -65,12 +66,17 @@ void bullet_draw(S_BULLET_OBJECT *pObj,_S_MAP_OBJECT *pMapBuf)
 	}
 }
 
-void bullet_fire(S_BULLET_OBJECT *pObj,int x,int y,double speed,double lifeLimit)
+void bullet_fire(S_BULLET_OBJECT *pObj,
+int x,int y,
+double speed,double vx,double vy,
+double lifeLimit)
 {
 	pObj->m_nFSM = 1;
 	pObj->m_nStep = 0;
 	pObj->m_fXpos = (double)x;
 	pObj->m_fYpos = (double)y;
+	pObj->m_fvx = vx;
+	pObj->m_fvy = vy;
 	pObj->m_fSpeed = speed;
 	pObj->m_fLifeLimit = lifeLimit;
 	
