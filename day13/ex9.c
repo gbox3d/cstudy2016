@@ -9,7 +9,7 @@ int main()
 
 	pJson = cJSON_Parse(pStrJSON);
 
-	printf("%d \r\n", cJSON_GetObjectItem(pJson,"xpos")->valueint);	
+	printf("%d \r\n",cJSON_GetObjectItem(pJson,"xpos")->valueint);	
 	printf("%s \r\n",cJSON_GetObjectItem(pJson,"cmd")->valuestring);
 
 
