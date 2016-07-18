@@ -34,8 +34,8 @@ void Plane_Apply(_S_Plane *pObj,double deltaTick,char key_input)
 void Plane_Draw(_S_Plane *pObj, _S_MAP_OBJECT *pBuff)
 {
 	map_drawTile_trn(pObj->m_pBody,
-	(int)pObj->m_fXpos,
-	(int)pObj->m_fYpos,
+	(int)(pObj->m_fXpos - pObj->m_fCenterX),
+	(int)(pObj->m_fYpos - pObj->m_fCenterY),
 	pBuff);
 }
 

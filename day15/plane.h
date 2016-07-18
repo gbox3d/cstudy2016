@@ -5,6 +5,9 @@ typedef struct _S_Plane {
 	double m_fXpos;
 	double m_fYpos;
 
+	double m_fCenterX;
+	double m_fCenterY;
+
 	_S_MAP_OBJECT *m_pBody;
 	void (*pfApply)(struct _S_Plane *,double ,char );
 	void (*pfDraw)(struct _S_Plane *,_S_MAP_OBJECT * );

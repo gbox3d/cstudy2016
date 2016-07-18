@@ -43,10 +43,11 @@ int main()
 	Plane_init(&gPlayerObject,&gPlayerModel,17,10);
 	bullet_init(&gTestBullet,0,0,0,&gBulletModel);	
 	
+	system("clear");
+	
 	set_conio_terminal_mode();
 	acc_tick=last_tick=0;
 
-	system("clear");
 	while(bLoop) {
 		//타이밍처리 
 		clock_gettime(CLOCK_MONOTONIC,&work_timer);
