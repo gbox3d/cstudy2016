@@ -31,6 +31,15 @@ int main()
 		map_init(&gScreenBuf[i]);
 		map_new(&gScreenBuf[i],35,16);
 	}
+
+	map_init(&gAlienModel);
+	map_load(&gAlienModel,"alien.dat");
+
+	alien_init(&gTestAlienObject,&gAlienModel);
+	
+	gTestAlienObject.m_fXpos = 5;
+	gTestAlienObject.m_fYpos = 5;
+	gTestAlienObject.m_nFSM = 1;
 	
 	system("clear");
 	
@@ -53,13 +62,17 @@ int main()
 			}
 
 		}
+
+		gTestAlienObject.pfApply(&gTestAlienObject,delta_tick);
 		
 		//타이밍 계산 
 		acc_tick += delta_tick;
 		if(acc_tick > 0.1) {
 			gotoxy(0,0);
 			map_drawTile(&gScreenBuf[0],0,0,&gScreenBuf[1]);
-		
+	
+			gTestAlienObject.pfDraw(&gTestAlienObject,&gScreenBuf[1]);
+				
 			
 			map_dump(&gScreenBuf[1],Default_Tilepalete);
 			acc_tick = 0;
