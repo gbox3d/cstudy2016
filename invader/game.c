@@ -10,6 +10,8 @@
 
 #include "../engine/engine2d.h"
 #include "../mapEditor/map.h"
+
+#include "plane.h"
 #include "bullet.h"
 #include "alien.h"
 
@@ -19,11 +21,14 @@ int bLoop = 1;
 
 _S_MAP_OBJECT gScreenBuf[2];
 
+_S_MAP_OBJECT gPlayerModel;
+_S_MAP_OBJECT gBulletModel;
 _S_MAP_OBJECT gAlienModel;
-_S_MAP_OBJECT gPlasmaModel;
 
-_S_ALIEN_OBJECT gTestAlienObject;
-_S_BULLET_OBJECT gTestBulletObject;
+_S_Plane gPlayerObject;
+_S_BULLET_OBJECT gBulletObjects[32];
+_S_ALIEN_OBJECT gAlienObjects[8];
+
 
 int main()
 {
@@ -34,20 +39,26 @@ int main()
 		map_new(&gScreenBuf[i],35,16);
 	}
 
+	map_init(&gPlayerModel);
+	map_load(&gPlayerModel,"plane1.dat");
+	
+	map_init(&gBulletModel);
+	map_load(&gBulletModel,"plasma.dat");
+
 	map_init(&gAlienModel);
 	map_load(&gAlienModel,"alien.dat");
 
-	map_init(&gPlasmaModel);
-	map_load(&gPlasmaModel,"plasma.dat");
+	double TablePosition[] = {0,6.0};
 
-	alien_init(&gTestAlienObject,&gAlienModel);
-	bullet_init(&gTestBulletObject,0,0,0,&gPlasmaModel);
-
-	gTestAlienObject.m_pBullet = &gTestBulletObject;
+	for(int i=0;i<2;i++)
+	{
+		_S_ALIEN_OBJECT *pObj = &gAlienObjects[i];
+		alien_init(pObj,&gAlienModel);
+		pObj->m_fXpos = TablePosition[i];
+		pObj->m_fYpos = 2;
+		pObj->m_nFSM = 1;
+	}
 	
-	gTestAlienObject.m_fXpos = 5;
-	gTestAlienObject.m_fYpos = 5;
-	gTestAlienObject.m_nFSM = 1;
 	
 	system("clear");
 	
@@ -69,20 +80,29 @@ int main()
 				puts("bye~ \r");
 			}
 
+
 		}
 
-		gTestAlienObject.pfApply(&gTestAlienObject,delta_tick);
-		gTestBulletObject.pfApply(&gTestBulletObject,delta_tick);
-		
+		for(int i=0;i<2;i++ ) 
+		{
+			_S_ALIEN_OBJECT *pObj = &gAlienObjects[i];
+			pObj->pfApply(pObj,delta_tick);
+
+		}
+
+
 		//타이밍 계산 
 		acc_tick += delta_tick;
 		if(acc_tick > 0.1) {
 			gotoxy(0,0);
 			map_drawTile(&gScreenBuf[0],0,0,&gScreenBuf[1]);
-	
-			gTestAlienObject.pfDraw(&gTestAlienObject,&gScreenBuf[1]);
-			gTestBulletObject.pfDraw(&gTestBulletObject,&gScreenBuf[1]);
 			
+			for(int i=0;i<2;i++ ) 
+			{
+				_S_ALIEN_OBJECT *pObj = &gAlienObjects[i];
+				pObj->pfDraw(pObj,&gScreenBuf[1]);
+			}
+
 			map_dump(&gScreenBuf[1],Default_Tilepalete);
 			acc_tick = 0;
 		}
