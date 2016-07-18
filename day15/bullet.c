@@ -44,8 +44,8 @@ void bullet_draw(_S_BULLET_OBJECT *pObj,_S_MAP_OBJECT *pMapBuf)
 	break;
 	case 1:
 	map_drawTile_trn(pObj->m_pBody,
-		(int)pObj->m_fXpos,
-		(int)pObj->m_fYpos,
+		(int)(pObj->m_fXpos + pObj->m_fCenterX) ,
+		(int)(pObj->m_fYpos + pObj->m_fCenterY),
 		pMapBuf);
 
 	break;
@@ -79,7 +79,11 @@ _S_MAP_OBJECT *pBody)
 	pObj->m_fXpos = x;
 	pObj->m_fYpos = y;
 	pObj->m_pBody = pBody;
-	pObj->pfAplly = bullet_apply;
+	
+	pObj->m_fCenterX = 0 - (pBody->m_header.m_nWidth/2);
+	pObj->m_fCenterY = 0 - (pBody->m_header.m_nHeight/2);
+
+	pObj->pfApply = bullet_apply;
 	pObj->pfDraw = bullet_draw;
 	pObj->pfFire = bullet_fire;
 

@@ -7,6 +7,9 @@ typedef struct _S_BULLET_OBJECT {
 	double m_fXpos;
 	double m_fYpos;
 
+	double m_fCenterX;
+	double m_fCenterY;
+
 	double m_fvx;
 	double m_fvy;
 	double m_fSpeed;
@@ -17,7 +20,7 @@ typedef struct _S_BULLET_OBJECT {
 	_S_MAP_OBJECT *m_pBody;
 
 	void (*pfDraw)(struct _S_BULLET_OBJECT *pObj,_S_MAP_OBJECT *pMapBuf);
-	void (*pfAplly)(struct _S_BULLET_OBJECT *pObj,double deltaTick);
+	void (*pfApply)(struct _S_BULLET_OBJECT *pObj,double deltaTick);
 	void (*pfFire)(struct _S_BULLET_OBJECT *pObj,
 			int x,int y,
 			double speed,double vx,double vy,
