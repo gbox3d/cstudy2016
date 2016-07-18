@@ -48,6 +48,9 @@ int main()
 	set_conio_terminal_mode();
 	acc_tick=last_tick=0;
 
+//플레이상태로 만들기 	
+	gPlayerObject.m_nFSM = 1;
+
 	while(bLoop) {
 		//타이밍처리 
 		clock_gettime(CLOCK_MONOTONIC,&work_timer);
@@ -88,7 +91,7 @@ int main()
 		
 		gTestBullet.pfApply(&gTestBullet,delta_tick);
 
-		{
+		if(gTestBullet.m_nFSM != 0) {
 			double bullet_pos_x = gTestBullet.m_fXpos;
 			double bullet_pos_y = gTestBullet.m_fYpos;
 
@@ -101,6 +104,7 @@ int main()
 
 			if(dist < 0.25) {
 				gTestBullet.m_nFSM = 0;
+				gPlayerObject.m_nFSM = 0;
 			}
 
 		}
