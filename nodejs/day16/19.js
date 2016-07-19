@@ -9,7 +9,7 @@ let solution;
 let bSolved = false;
 solution = Math.round(Math.random() * 100);
 
-console.log(solution);
+//console.log(solution);
 
 net.createServer((socket)=> {
 
@@ -33,11 +33,14 @@ net.createServer((socket)=> {
 
             if(data.value > solution) {
                 resultObj.txt = "high";
+                console.log(data.name + "님 실패!!!");
             }
             else if(data.value < solution) {
                 resultObj.txt = "low";
+                console.log(data.name + "님 실패!!!");
             }
             else {
+                console.log(data.name + "님 당첨!!!");
                 resultObj.txt ="bingo"
                 bSolved = true;
             }
