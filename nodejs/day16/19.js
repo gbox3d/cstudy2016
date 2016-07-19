@@ -26,29 +26,37 @@ net.createServer((socket)=> {
     });
     socket.on('data',(evt)=>{
         //console.log(evt.toString());
-        let data = JSON.parse(evt.toString());
-        let resultObj = {};
-        if(bSolved ==false ) {
-            console.log( data.name + " try game...");
+        try {
+            let data = JSON.parse(evt.toString());
+            let resultObj = {};
+            if(bSolved ==false ) {
+                console.log( data.name + " try game...");
 
-            if(data.value > solution) {
-                resultObj.txt = "high";
-                console.log(data.name + "님 실패!!!");
-            }
-            else if(data.value < solution) {
-                resultObj.txt = "low";
-                console.log(data.name + "님 실패!!!");
+                if(data.value > solution) {
+                    resultObj.txt = "high";
+                    console.log(data.name + "님 실패!!!");
+                }
+                else if(data.value < solution) {
+                    resultObj.txt = "low";
+                    console.log(data.name + "님 실패!!!");
+                }
+                else {
+                    console.log(data.name + "님 당첨!!!");
+                    console.log("정답은 :" + solution);
+                    resultObj.txt ="bingo"
+                    bSolved = true;
+                }
             }
             else {
-                console.log(data.name + "님 당첨!!!");
-                resultObj.txt ="bingo"
-                bSolved = true;
+                resultObj.txt = 'game over';
             }
+            socket.write(JSON.stringify(resultObj));
+
         }
-        else {
-            resultObj.txt = 'game over';
+        catch (e) {
+            console.log(e.toString())
         }
-        socket.write(JSON.stringify(resultObj));
+
     });
 
 }).listen(PORT);
