@@ -1,7 +1,6 @@
 /**
  * Created by KICT-12 on 2016-07-19.
  */
-
 const net = require('net');
 
 const ip = 'localhost';
@@ -11,8 +10,11 @@ let socket = new net.Socket();
 
 socket.connect(PORT,ip,()=>{
     console.log("connect to: " + ip + PORT);
-    socket.write("여보세요");
-
+    let req = {
+        name : '안철수',
+        value : 94
+    }
+    socket.write(JSON.stringify(req));
 });
 
 socket.on('data',(evt)=>{
