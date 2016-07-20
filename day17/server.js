@@ -47,10 +47,11 @@ net.createServer((socket)=> {
                 case 201: //위치정보 요청
                 {
                     let index = data.readInt16LE(4);
-                    let buff = new Buffer(10);
+                    let buff = new Buffer(12);
                     buff.writeInt16LE(1004,0);
-                    buff.writeFloatLE(object_list[index].x,2);
-                    buff.writeFloatLE(object_list[index].y,6);
+                    buff.writeInt16LE(index,2);
+                    buff.writeFloatLE(object_list[index].x,4);
+                    buff.writeFloatLE(object_list[index].y,8);
                     socket.write(buff);
 
                 }
