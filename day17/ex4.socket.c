@@ -18,7 +18,7 @@ int main()
 	struct sockaddr_in server;
 	static char read_buffer[20000];
 
-	_S_PACKET_REQ_SETPOS testPacket = {1004,200,0,15.0,17.0};
+	_S_PACKET_REQ_SETPOS testPacket = {1004,200,0,12.0,7.0};
 	
 	printf("%d,%d \r\n",testPacket.header,testPacket.req_type);
 

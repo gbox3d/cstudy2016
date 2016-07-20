@@ -13,6 +13,14 @@ typedef struct _S_PACKET_REQ_SETPOS {
 	float m_fypos;
 } _S_PACKET_REQ_SETPOS;
 
+
+
+typedef struct _S_PACKET_REQ_GETPOS {
+	_S_PACKET_BASE m_base;
+	unsigned int m_nIndex;
+} _S_PACKET_REQ_GETPOS;
+  
+
 typedef struct _S_PACKET_RCV_POS {
 	unsigned short header;
 	unsigned short m_nIndex;
