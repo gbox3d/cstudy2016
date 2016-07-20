@@ -8,10 +8,16 @@
 #include <termios.h>
 #include <math.h>
 #include <pthread.h>
+
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
 #include "../engine/engine2d.h"
 #include "../mapEditor/map.h"
 
+#include "packet.h"
 #include "plane.h"
+
 pthread_t tid;
 struct timespec work_timer;
 double acc_tick,last_tick;
