@@ -38,9 +38,10 @@ net.createServer((socket)=> {
                 case 200: //위치정보 전송
                 {
                     let index = data.readInt16LE(4);
-                    object_list[index].x = data.readFloatLE(6);
-                    object_list[index].y = data.readFloatLE(10);
+                    object_list[index].x = data.readFloatLE(8);
+                    object_list[index].y = data.readFloatLE(12);
                     console.log(object_list);
+                    console.log(data);
                 }
                     break;
                 case 201: //위치정보 요청
