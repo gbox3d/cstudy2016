@@ -19,8 +19,17 @@ net.createServer((socket)=> {
         console.log(evt);
     });
     socket.on('data',(evt)=>{
-        socket.write("누구세요?");
-        console.log(evt.toString());
+        //2byte : header(1004)
+        //2byte : 요청 type
+        //extra :...
+        data = evt;
+
+        let header = data.readInt16LE(0);
+        let req_type = data.readInt16LE(2);
+
+        console.log('header :' + header);
+        console.log('request type :' + req_type);
+
     });
 
 }).listen(PORT);
