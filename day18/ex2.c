@@ -19,8 +19,8 @@
 #include "plane.h"
 
 typedef struct _S_PACKET_RECV_POSITIONS {
-	unsigned char header; //0
-	unsigned char type; //2
+	unsigned short header; //0
+	unsigned short type; //2
 	float m_afXpos[2]; //4
 	float m_afYpos[2]; //12
 
@@ -38,12 +38,15 @@ void *ListenThread(void *arg)
 	while(1) {
 		puts("listen start..");
 		if(recv(socket_desc,
-			read_buffer,2000,0) < 0) {
+					read_buffer,2000,0) < 0) {
 			puts("recv failed");
 		}
 		puts("success recv");
 		_S_PACKET_RECV_POSITIONS *pPacket = 
 			( _S_PACKET_RECV_POSITIONS * )read_buffer;
+		//for(int i=0;i<20;i++) {
+		//	printf("%x,",read_buffer[i]);
+		//}
 		printf("%d, %d \r\n",pPacket->header,pPacket->type);
 		//sleep(1);
 	}

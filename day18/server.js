@@ -59,6 +59,8 @@ net.createServer((socket)=> {
                         buff.writeFloatLE(sockets[1].y,12);
                         buff.writeFloatLE(sockets[1].y,16);
 
+                        console.log(buff);
+
                         for(let i=0;i<sockets.length;i++ ) {
                             sockets[i].socket.write(buff);
                         }
