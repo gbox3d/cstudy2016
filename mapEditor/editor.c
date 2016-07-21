@@ -38,7 +38,6 @@ void mapeditor_dump()
 void mapeditor_dump2() 
 {
 	//dump2 sx sy w h
-	
 
 	int sx = atoi(strtok(NULL," "));
 	int sy = atoi(strtok(NULL," "));
@@ -49,12 +48,24 @@ void mapeditor_dump2()
 
 	int ix,iy;
 
+	char *pTile_pal;
+	_S_MAP_OBJECT *pObj;
+
+	pTile_pal = Default_Tilepalete;
+	pObj = &MapObject;
+
+
 	for(iy = sy;iy< sy+h;iy++) {
 		for(ix = sx;ix < sx+w;ix++) {
-			
+			if(ix < pObj->m_header.m_nWidth && iy < pObj->m_header.m_nHeight) {
+				putchar(pTile_pal[ 
+						pObj->m_pBuf[iy* pObj->m_header.m_nWidth + ix]
+				]
+				);
+			}
 		}
+		printf("\r\n");
 	}
-
 	
 
 }
