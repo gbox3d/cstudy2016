@@ -48,6 +48,7 @@ void *ListenThread(void *arg)
 		//	printf("%x,",read_buffer[i]);
 		//}
 		printf("%d, %d \r\n",pPacket->header,pPacket->type);
+		printf("%f, %f \r\n",pPacket->m_afXpos[0],pPacket->m_afYpos[0]);
 		//sleep(1);
 	}
 	return NULL;

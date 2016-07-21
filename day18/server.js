@@ -55,8 +55,8 @@ net.createServer((socket)=> {
                     console.log("send data " + sockets.length);
                     if(sockets.length >= 2) {
                         buff.writeFloatLE(sockets[0].x,4);
-                        buff.writeFloatLE(sockets[0].x,8);
-                        buff.writeFloatLE(sockets[1].y,12);
+                        buff.writeFloatLE(sockets[1].x,8);
+                        buff.writeFloatLE(sockets[0].y,12);
                         buff.writeFloatLE(sockets[1].y,16);
 
                         console.log(buff);
