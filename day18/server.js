@@ -47,7 +47,27 @@ net.createServer((socket)=> {
                     let index = data.readInt16LE(4);
                     sockets[index].x = data.readFloatLE(8);
                     sockets[index].y = data.readFloatLE(12);
-                    console.log(sockets);
+                    //console.log(sockets);
+
+                    let buff = new Buffer(20);
+                    buff.writeInt16LE(1004,0);
+                    buff.writeInt16LE(100,2); //recv position
+                    console.log("send data " + sockets.length);
+                    if(sockets.length >= 2) {
+                        buff.writeFloatLE(sockets[0].x,4);
+                        buff.writeFloatLE(sockets[0].x,8);
+                        buff.writeFloatLE(sockets[1].y,12);
+                        buff.writeFloatLE(sockets[1].y,16);
+
+                        for(let i=0;i<sockets.length;i++ ) {
+                            sockets[i].socket.write(buff);
+                        }
+                    }
+                    else {
+                        console.log('wait player');
+                    }
+
+
                 }
                     break;
 

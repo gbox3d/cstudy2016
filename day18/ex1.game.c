@@ -34,6 +34,20 @@ _S_MAP_OBJECT gPlayerModel;
 
 _S_Plane gPlayerObject;
 
+
+void *ListenThread(void *arg)
+{
+	while(1) {
+		if(recv(socket_desc,
+			read_buffer,2000,0) < 0) {
+			puts("recv failed");
+		}
+		puts("success recv");
+		//sleep(1);
+	}
+	return NULL;
+}
+
 void *InputThread(void *arg)
 {
 	while(1)
@@ -64,6 +78,7 @@ void *InputThread(void *arg)
 			}
 
 		}
+		
 
 	}
 	return NULL;
@@ -80,9 +95,19 @@ int main(int argc,char *argv[])
 	}
 
 	printf("ready player %d \r\n",gnPlayerIndex);
-
+	
 	{
 		int err = pthread_create(&tid,NULL,&InputThread,NULL);
+		if(err != 0) {
+			printf("err : %s \r\n",strerror(err));
+		}
+		else {
+			printf("thread create success \r\n");
+		}
+	}
+
+	{
+		int err = pthread_create(&tid,NULL,&ListenThread,NULL);
 		if(err != 0) {
 			printf("err : %s \r\n",strerror(err));
 		}
