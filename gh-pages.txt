@@ -1,0 +1,22 @@
+0. 커밋후 푸쉬 확인을 합니다.
+
+1. 새로운 gh-pages 브렌치를 만들어 줍니다.
+git checkout --orphan gh-pages
+
+2. 새로운 브렌치를 초기화 합니다.
+git status <= 현재 브렌치 확인 요망, gh-pages 임을 확인합니다.
+git rm -rf .
+
+3. index.html 파일을 만들고 저장소에 추가 합니다.
+vim index.html
+git add index.html
+
+4. 새로운 브렌치를 커밋&푸쉬합니다.
+git commit -m"..."
+git push
+(만약 안되면 git push --set-upstream origin gh-pages)
+
+5. 브라우져에서 경로를 확인합니다.
+http://깃허브아이디.github.io/프로잭트아이디
+
+
